@@ -1,5 +1,5 @@
 module ProductizeBayes
 
-greet() = print("Hello World!")
+import SHA
 
 end # module

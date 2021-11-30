@@ -1,0 +1,4 @@
+name = "ProductizeBayes"
+uuid = "cd90bcd2-cadc-4a0e-8220-64a519501bcd"
+authors = ["patrickboehnke <pboehnke@gmail.com>"]
+version = "0.1.0"

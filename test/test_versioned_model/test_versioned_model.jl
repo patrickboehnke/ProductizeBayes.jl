@@ -1,5 +1,5 @@
 using Test
-using VersionedModel
+using ProductizeBayes
 
 
 bernoulli_model = "
@@ -18,10 +18,7 @@ model {
 
 data = Dict("N" => 10, "y" => [0, 1, 0, 1, 0, 0, 0, 0, 0, 1])
 
-sm = VersionedModel("bernoulli", bernoulli_model);
-rc = stan_sample(sm.stan_model; data, num_chains=2, seed=-1);
+sm = VersionedModel("bernoulli", bernoulli_model)
+rc = stan_sample(sm.stan_model; data, num_chains=2, seed=-1)
 
-if success(rc)
-  st = read_samples(sm.stan_model)
-  display(st)
-end
+@test sm.hash == "test"

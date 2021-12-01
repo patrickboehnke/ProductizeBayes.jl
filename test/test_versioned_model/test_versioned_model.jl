@@ -43,3 +43,4 @@ if success(rc)
 
   samples = read_samples(sm.stan_model, :array)
   @test size(samples) == (1000, 1, 2)
+end

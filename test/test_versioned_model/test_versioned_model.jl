@@ -1,5 +1,5 @@
 using Test
-using ProductizeBayes, StanModel
+using ProductizeBayes, StanSample
 
 
 bernoulli_model = "

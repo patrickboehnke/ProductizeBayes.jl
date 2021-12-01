@@ -4,5 +4,3 @@
 3. checking file when building model to see if it already exists
 
 # TestVersionedModel
-1. test for hashing
-2. test for making stan model with default parameters

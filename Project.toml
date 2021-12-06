@@ -4,6 +4,7 @@ authors = ["patrickboehnke <pboehnke@gmail.com>"]
 version = "0.1.0"
 
 [deps]
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 HDF5 = "f67ccb44-e63f-5c2f-98bd-6dc0ccc4ba2f"
 SHA = "ea8e919c-243c-51af-8825-aaa63cd721ce"
 StanSample = "c1514b29-d3a0-5178-b312-660c88baa699"

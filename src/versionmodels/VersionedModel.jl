@@ -2,6 +2,7 @@ import Base: show
 using SHA
 using StanSample
 using HDF5
+using DataFrames
 
 
 mutable struct VersionedModel
@@ -26,7 +27,9 @@ function VersionedModel(name::AbstractString, model::AbstractString, version_sto
     else
         versioned_model_data = create_group(fid, name)
     end
-
+    for cnm in DataFrames._names(df)
+        g["$cnm"] = convert(Array, df[cnm])
+    end
     VersionedModel(stan_model, hash)
 
 end

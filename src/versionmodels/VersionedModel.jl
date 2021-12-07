@@ -4,6 +4,7 @@ using StanSample
 using HDF5
 using DataFrames
 
+const DESCRIPTION = "This group stores a versioned Stan model produced by ProductizeBayes.jl"
 
 mutable struct VersionedModel
     # Stan Model
@@ -30,6 +31,8 @@ function VersionedModel(name::AbstractString, model::AbstractString, version_sto
     for cnm in DataFrames._names(df)
         g["$cnm"] = convert(Array, df[cnm])
     end
+    attrs(g)["Description"] = DESCRIPTION
+
     VersionedModel(stan_model, hash)
 
 end

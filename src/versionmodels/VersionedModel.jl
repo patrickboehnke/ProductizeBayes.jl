@@ -22,17 +22,21 @@ function VersionedModel(name::AbstractString, model::AbstractString, version_sto
     stan_model = SampleModel(name, model)
     hash = bytes2hex(sha3_512(lowercase(strip(model))))
 
+    df = DataFrame(Model=[model], Version=[1], Hash=[hash])
+
     fid = h5open(version_store_file, "cw")
     if name in keys(fid)
-        versioned_model_data = fid[name]
+        global versioned_model_data = fid[name]
     else
-        versioned_model_data = create_group(fid, name)
+        global versioned_model_data = create_group(fid, name)
+        global version_number = 1
     end
     for cnm in DataFrames._names(df)
-        g["$cnm"] = convert(Array, df[cnm])
+        versioned_model_data["$cnm"] = convert(Array, df[cnm])
     end
     attrs(g)["Description"] = DESCRIPTION
+    h5write(version_store_file, name, g)
 
-    VersionedModel(stan_model, hash)
+    VersionedModel(stan_model, hash, version_number)
 
 end

@@ -10,10 +10,7 @@ mutable struct VersionedModel
     # Stan Model
     stan_model::SampleModel
 
-    # Versioning Detail Fields
-    hash::AbstractString
-    version_number::Int
-
+    # Versioning Detail Fields'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'
     # Storage Information
     version_store_file::AbstractString
 end

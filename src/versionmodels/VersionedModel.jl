@@ -1,7 +1,7 @@
 import Base: show
 using SHA
 using StanSample
-using HDF5
+using Parquet
 using DataFrames
 
 const DESCRIPTION = "This group stores a versioned Stan model produced by ProductizeBayes.jl"

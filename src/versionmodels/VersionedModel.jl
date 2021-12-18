@@ -10,7 +10,7 @@ mutable struct VersionedModel
     # Stan Model
     stan_model::SampleModel
 
-    # Versioning Detail Fields'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'
+    # Versioning Detail Fields
     # Storage Information
     version_store_file::AbstractString
 end
@@ -18,21 +18,28 @@ end
 function VersionedModel(name::AbstractString, model::AbstractString, version_store_file::AbstractString)
     stan_model = SampleModel(name, model)
     hash = bytes2hex(sha3_512(lowercase(strip(model))))
+    version_number = 1
 
-    df = DataFrame(Model=[model], Version=[1], Hash=[hash])
 
-    fid = h5open(version_store_file, "cw")
-    if name in keys(fid)
-        global versioned_model_data = fid[name]
+    if isfile(version_store_file)
+        versionstoredf = DataFrame(read_parquet(version_store_file))
+        modelfromfile = filter(:name => modelnames -> modelnames == name, versionstoredf)
+        if length(modelfromfile) == 0
+            df = DataFrame(Name = [name], Model=[model], Version=[version_number], Hash=[hash])
+            append!(versionstoredf, df)
+        else
+            duplicatemodelfromfile = filter(:hash => modelhash -> modelhash == hash, modelfromfile)
+            if length(duplicatemodelfromfile) > 0
+                version_number = duplicatemodelfromfile[:hash, 1]
+            else
+                version_number = max(duplicatemodelfromfile[:Version]) + 1
+                df = DataFrame(Name = [name], Model=[model], Version=[version_number], Hash=[hash])
+                append!(versionstoredf, df)
+            end
+        end
     else
-        global versioned_model_data = create_group(fid, name)
-        global version_number = 1
+        versionstoredf = DataFrame(Name = [name], Model=[model], Version=[version_number], Hash=[hash])
     end
-    for cnm in DataFrames._names(df)
-        versioned_model_data["$cnm"] = convert(Array, df[cnm])
-    end
-    attrs(g)["Description"] = DESCRIPTION
-    h5write(version_store_file, name, g)
 
     VersionedModel(stan_model, hash, version_number)
 

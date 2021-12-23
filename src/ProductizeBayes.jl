@@ -4,6 +4,8 @@ import SHA
 import StanSample
 
 include("versionmodels/VersionedModel.jl")
+include("versionmodels/VersionedFile.jl")
+
 
 export VersionedModel,
         stan_sample,

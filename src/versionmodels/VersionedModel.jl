@@ -4,13 +4,12 @@ using StanSample
 using Parquet
 using DataFrames
 
-const DESCRIPTION = "This group stores a versioned Stan model produced by ProductizeBayes.jl"
-
 mutable struct VersionedModel
     # Stan Model
     stan_model::SampleModel
 
     # Versioning Detail Fields
+    hash::String
     # Storage Information
     version_store_file::AbstractString
 end

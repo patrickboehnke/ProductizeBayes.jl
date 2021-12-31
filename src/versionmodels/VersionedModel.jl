@@ -3,6 +3,7 @@ using SHA
 using StanSample
 using Parquet
 using DataFrames
+using VersionedFile
 
 mutable struct VersionedModel
     # Stan Model
@@ -11,7 +12,7 @@ mutable struct VersionedModel
     # Versioning Detail Fields
     hash::String
     # Storage Information
-    version_store_file::AbstractString
+    versionfile::VersionedFile
 end
 
 function VersionedModel(name::AbstractString, model::AbstractString, version_store_file::AbstractString)

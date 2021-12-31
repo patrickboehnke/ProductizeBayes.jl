@@ -20,3 +20,7 @@ function VersionedFile(version_store_file::AbstractString)
     end
     VersionedFile(versionstoredf, version_store_file)
 end
+
+function saveFile(versionfile::VersionedFile)
+    write_parquet(versionfile.version_store_file, versionfile.versionstoredf)
+end

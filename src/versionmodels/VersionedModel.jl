@@ -40,6 +40,5 @@ function VersionedModel(name::AbstractString, model::AbstractString, version_sto
     else
         versionstoredf = DataFrame(Name = [name], Model=[model], Version=[version_number], Hash=[hash])
     end
-    write_parquet(version_store_file, versionstoredf)
     VersionedModel(stan_model, hash, version_number)
 end

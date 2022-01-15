@@ -6,6 +6,7 @@ using DataFrames
 using VersionedFile
 
 mutable struct VersionedModel
+    name::String
     # Stan Model
     stan_model::SampleModel
 
@@ -13,12 +14,13 @@ mutable struct VersionedModel
     hash::String
     # Storage Information
     versionfile::VersionedFile
+    version::Int
 end
 
 function VersionedModel(name::AbstractString, model::AbstractString, version_store_file::AbstractString)
     stan_model = SampleModel(name, model)
     hash = bytes2hex(sha3_512(lowercase(strip(model))))
-    version_number = 1
+    version = 1
 
 
     if isfile(version_store_file)
